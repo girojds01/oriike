@@ -30,17 +30,11 @@ def fetch_digital_agency_news(max_count, execution_timestamp, executable_path):
     json_file = f"./data/digital_agency_news.json"
     existing_data = load_existing_data(json_file)
 
-    exception_category = ["組織情報","申請・届出","採用","調達情報"]
-
     new_news = []
     new_count = 0  # カウンターを追加
     for entry in feed.entries:
         if any(entry.title == item['title'] for item in existing_data):
             continue  # 既に存在するニュースはスキップ
-
-        if entry.category in exception_category:
-            print(f"デジタル庁: 例外カテゴリー - {entry.category}")
-            continue # 記事のカテゴリーがexception_categoryに含まれる場合はスキップ
 
         print(f"デジタル庁: 記事取得開始 - {entry.title}")
         try:
@@ -74,7 +68,6 @@ def fetch_digital_agency_news(max_count, execution_timestamp, executable_path):
                 'organization': "デジタル庁",
                 'title': entry.title,
                 'link': entry.link,
-                'category': entry.category,
                 'summary': summary
             }
             new_news.append(news_item)

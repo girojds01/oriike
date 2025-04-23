@@ -93,8 +93,6 @@ def fetch_toa_news(max_count, execution_timestamp, executable_path):
 
             news_item = {
                 'pubDate': pub_date,
-                'execution_timestamp': execution_timestamp,
-                'organization': "トーア再保険株式会社",
                 'label': label,
                 'title': title,
                 'link': link,
