@@ -1,6 +1,6 @@
 
 import sys
-sys.path.append('C:\sasase\ichiyasa\codespaces-jupyter-fsa-rss')
+# sys.path.append('C:\sasase\ichiyasa\codespaces-jupyter-fsa-rss')
 sys.path.append('c:/sasase/packages')
 import datetime
 import csv
@@ -52,7 +52,7 @@ def save_to_csv(news_list: list[dict]) -> None:
 
 # ファイルから org_func_map を読み込む
 org_func_map = {}
-with open("情報取得源と関数対応表.txt", "r", encoding="utf-8") as f:
+with open("未確認情報取得源と関数.txt", "r", encoding="utf-8") as f:
     for line in f:
         line = line.strip()
         if not line or ":" not in line:

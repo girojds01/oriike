@@ -32,8 +32,13 @@ def fetch_cas_kyojin(max_count, execution_timestamp, executable_path):
     new_news = []
     new_count = 0  # カウンターを追加
 
-    # Seleniumドライバーを初期化
-    driver = webdriver.Chrome(options=options)
+    # ただし options.set_capability を加えると安定性UP
+    options.set_capability("browserName", "MicrosoftEdge")
+    # Edgeドライバのパス（バージョン135に対応したmsedgedriver.exeを配置済み）
+    service = EdgeService(executable_path=executable_path)
+    # ドライバ起動
+    driver = webdriver.Edge(service=service, options=options)
+
     try:
         driver.get(url)
         driver.implicitly_wait(10)

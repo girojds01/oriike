@@ -29,8 +29,13 @@ def fetch_sbi_news(max_count, execution_timestamp, executable_path):
     json_file = "./data/sbi_news.json"
     existing_data = load_existing_data(json_file)
 
-    # Seleniumドライバーを初期化
-    driver = webdriver.Chrome(options=options)
+    # ただし options.set_capability を加えると安定性UP
+    options.set_capability("browserName", "MicrosoftEdge")
+    # Edgeドライバのパス（バージョン135に対応したmsedgedriver.exeを配置済み）
+    service = EdgeService(executable_path=executable_path)
+    # ドライバ起動
+    driver = webdriver.Edge(service=service, options=options)
+
     try:
         driver.get(url)
         driver.implicitly_wait(10)

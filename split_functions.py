@@ -3,7 +3,7 @@ import os
 from textwrap import dedent
 
 # ===== 設定 =====
-input_file_path = "collect.py"  # 元ファイル（同じフォルダに置く）
+input_file_path = "collect_4.py"  # 元ファイル（同じフォルダに置く）
 output_dir = "functions"         # 出力フォルダ
 os.makedirs(output_dir, exist_ok=True)
 

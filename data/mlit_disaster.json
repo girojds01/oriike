@@ -1,0 +1,90 @@
+[
+    {
+        "pubDate": "2025-04-18 22:45:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "長野県北部を震源とする地震による被害情報等について（第2報　2025年4月18日 22時45分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250418.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-03-31 16:00:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "愛媛県今治市の林野火災による被害状況等について（第13報　2025年3月31日 16時00分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250324.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-05-01 17:42:19",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "霧島山（新燃岳）の火山活動について（第1報　2025年3月30日 5時20分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250330.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-03-29 10:00:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "岡山県岡山市の林野火災による被害状況等について（第10報　2025年3月29日 10時00分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_20250323.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-03-27 07:00:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "宮崎県宮崎市の林野火災による被害状況等について（第2報　2025年3月27日 07時00分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250326.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-03-19 10:00:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "岩手県大船渡市の林野火災による被害状況等について（第28報　2025年3月19日 10時00分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250227.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-02-13 09:30:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "令和7年2月4日からの大雪について（第13報　2025年2月13日 9時30分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250204.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-01-28 14:00:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "令和６年能登半島地震における被害と対応について（第112報　2025年1月28日 14時00分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_240101.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-05-01 17:42:21",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "福島県会津地方を震源とする地震による被害状況等について（第1報　2025年1月23日）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250123.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-01-13 22:30:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "宮崎県日向灘を震源とする地震による被害状況等について（第1報　2025年1月13日 22時30分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250113.html",
+        "summary": ""
+    },
+    {
+        "pubDate": "2025-01-10 16:00:00",
+        "execution_timestamp": "2025-05-01 17;42;04",
+        "organization": "国土交通省",
+        "title": "令和7年1月8日からの大雪による被害状況等について（第4報　2025年1月10日 16時00分現在）",
+        "link": "https://www.mlit.go.jp/saigai/saigai_250109.html",
+        "summary": ""
+    }
+]
