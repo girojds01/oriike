@@ -13,6 +13,7 @@
 '公正取引委員会':'fetch_jftc_news', 
 '個人情報保護委員会':'fetch_ppc_news', 
 '環境省':'fetch_env_news', 
+'外務省':'fetch_mofa_news',
 'Road-to-the-L4':'fetch_road_to_l4_news', 
 '総務省統計局':'fetch_statistics_bureau_news', 
 '国土交通省':'fetch_mlit_news', 
