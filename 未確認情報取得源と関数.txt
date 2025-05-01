@@ -1,3 +1,6 @@
 {
+'日新火災海上保険株式会社(お知らせ)':'fetch_nisshinfire_news', 
+'日新火災海上保険株式会社':'fetch_nisshin_news', 
+'国土地理院':'fetch_gsi_news', 
 '株式会社ヤマップネイチャランス損害保険':'fetch_yamap_news'
 }
