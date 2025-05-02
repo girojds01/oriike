@@ -24,18 +24,15 @@ options.use_chromium = True
 
 
 def fetch_nisshinfire_news(max_count, execution_timestamp, executable_path):
-    """日新火災海上保険株式会社(お知らせ)の新着情報を収集・要約します。"""
-    url = "https://www.nisshinfire.co.jp/info/"
-    json_file = f"./data/nisshinfire.json"
+    """日新火災のニュースリリースを収集・要約します。"""
+    url = "https://www.nisshinfire.co.jp/news_release/"
+    json_file = "./data/nisshinfire_news.json"
+
+    # 既存データのロード
     existing_data = load_existing_data(json_file)
 
-    # ただし options.set_capability を加えると安定性UP
-    options.set_capability("browserName", "MicrosoftEdge")
-    # Edgeドライバのパス（バージョン135に対応したmsedgedriver.exeを配置済み）
-    service = EdgeService(executable_path=executable_path)
-    # ドライバ起動
-    driver = webdriver.Edge(service=service, options=options)
-
+    # Seleniumのオプション設定
+    driver = webdriver.Chrome(options=options)
     try:
         driver.get(url)
         driver.implicitly_wait(10)
@@ -44,74 +41,107 @@ def fetch_nisshinfire_news(max_count, execution_timestamp, executable_path):
         print(f"日新火災: ページ取得中にエラー発生 - {e}")
         driver.quit()
         return []
-    driver.quit()
+    finally:
+        driver.quit()
 
     news_items = []
-    new_count = 0  # 取得した新しい記事の数
-    try:
-        # 最新のニューステーブルを取得
-        table = soup.find('table', class_='newsinfo__idx__table')
-        if not table:
-            print("日新火災: ニューステーブルが見つかりません。")
-            return []
+    new_count = 0
 
-        for tr in table.find_all('tr'):
-            th = tr.find('th', class_='newsinfo__idx__table__th')
-            td = tr.find('td', class_='newsinfo__idx__table__td')
-            if not th or not td:
+    # ニュース一覧が掲載されているテーブルを取得
+    table = soup.find('table', class_='newsinfo__idx__table')
+    if not table:
+        print("日新火災: ニュースリリースのテーブルが見つかりませんでした。")
+        return []
+
+    # テーブル内の行(<tr>)を順次処理
+    for tr in table.find_all('tr'):
+        # 日付セル
+        date_th = tr.find('th', class_='newsinfo__idx__table__th')
+        if not date_th:
+            # 日付セルがない行はスキップ
+            continue
+        pub_date = date_th.get_text(strip=True)
+
+        # ジャンルセル
+        label_th = tr.find('th', class_='newsinfo__idx__table__genre')
+        label = ""
+        if label_th:
+            span_genre = label_th.find('span', class_='newsinfo__idx__genre')
+            if span_genre:
+                label = span_genre.get_text(strip=True)
+
+        # タイトルとリンク（<td class="newsinfo__idx__table__td">配下の<a>）
+        td = tr.find('td', class_='newsinfo__idx__table__td')
+        if not td:
+            continue
+
+        a_tag = td.find('a')
+        if not a_tag:
+            continue
+
+        relative_link = a_tag.get('href', '').strip()
+
+        # ------------------------------------------
+        # urljoinを使わず、自前でパターン判定してリンク補完
+        # ------------------------------------------
+        if relative_link.startswith('http'):
+            # すでに絶対URL（httpまたはhttps）
+            link = relative_link
+        elif relative_link.startswith('/'):
+            # サイトルートからのパス（例: /pdf/...）
+            link = "https://www.nisshinfire.co.jp" + relative_link
+        else:
+            # news_release/以下からの相対パス（例: pdf/news250324.pdf）
+            # 必要に応じて "./pdf/...","pdf/..." などをまとめて扱う
+            if relative_link.startswith('./'):
+                relative_link = relative_link[2:]
+            link = "https://www.nisshinfire.co.jp/news_release/" + relative_link
+
+        title_text = a_tag.get_text(strip=True)
+
+        # 重複チェック
+        if any(item['title'] == title_text for item in existing_data):
+            continue
+
+        print(f"日新火災: 記事取得開始 - {title_text}")
+
+        # コンテンツ・要約取得
+        try:
+            if is_pdf_link(link):  
+                # PDFファイルの場合のテキスト抽出
+                content = extract_text_from_pdf(link)
+            else:
+                # 通常Webページの場合
+                response = requests.get(link, verify=False)  # 必要なら証明書をチェック
+                response.encoding = 'utf-8'
+                content = response.text
+
+            if not content:
+                print(f"日新火災: コンテンツ取得失敗 - {link}")
                 continue
 
-            pub_date = th.get_text(strip=True)
-            a_tag = td.find('a', class_='_link')
-            if not a_tag:
-                continue
+            summary = ""
+            # max_count を超えない範囲でのみ要約を実行（例: 3件まで要約など）
+            if new_count < max_count:
+                summary = summarize_text(title_text, content)
 
-            link = a_tag.get('href')
-            if not link.startswith('http'):
-                link = "https://www.nisshinfire.co.jp" + link
-            title = a_tag.get_text(strip=True).split('(')[0].strip()
+            news_item = {
+                'pubDate': pub_date,
+                'execution_timestamp': execution_timestamp,  # グローバル or 外部で定義
+                'organization': "日新火災",
+                'label': label,
+                'title': title_text,
+                'link': link,
+                'summary': summary
+            }
 
-            # 既存データに存在するか確認
-            if any(title == item['title'] for item in existing_data):
-                continue  # 既に存在するニュースはスキップ
+            news_items.append(news_item)
+            existing_data.append(news_item)
+            new_count += 1
 
-            print(f"日新火災: 記事取得開始 - {title}")
-            try:
-                if is_pdf_link(link):
-                    content = extract_text_from_pdf(link)
-                else:
-                    response = requests.get(link)
-                    response.encoding = 'UTF-8'
-                    soup_detail = BeautifulSoup(response.text, 'html.parser')
-                    # 記事の本文を取得（サイト構造に合わせて調整が必要）
-                    content = soup_detail.get_text(separator='\n', strip=True)
+        except Exception as e:
+            print(f"日新火災: 要約中にエラー発生 - {e}")
 
-                if not content:
-                    print(f"日新火災: コンテンツ取得失敗 - {link}")
-                    continue
-
-                summary = ""
-                if new_count < max_count:  # 新しい記事がmax_count件に達したら要約をスキップ
-                    summary = summarize_text(title, content)
-
-                news_item = {
-                    'pubDate': pub_date,
-                    'execution_timestamp': execution_timestamp,
-                    'organization': "日新火災海上保険株式会社",
-                    'title': title,
-                    'link': link,
-                    'summary': summary
-                }
-                news_items.append(news_item)
-                existing_data.append(news_item)
-                new_count += 1  # カウンターを増加
-
-
-            except Exception as e:
-                print(f"日新火災: 要約中にエラー発生 - {e}")
-
-    except Exception as e:
-        print(f"日新火災: ニュース解析中にエラー発生 - {e}")
-
+    # 保存
     save_json(existing_data, json_file)
     return news_items
