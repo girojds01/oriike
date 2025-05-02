@@ -21,6 +21,7 @@ options.add_argument("--lang=ja")
 # options.binary_location = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 options.add_argument("--start-maximized")
 options.use_chromium = True
+#aiueo
 
 
 def fetch_starr_news(max_count, execution_timestamp, executable_path):
