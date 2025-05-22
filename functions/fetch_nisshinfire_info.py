@@ -31,8 +31,12 @@ def fetch_nisshinfire_info(max_count, execution_timestamp, executable_path):
     # 既存データのロード（外部で定義されている想定）
     existing_data = load_existing_data(json_file)
 
-    # Seleniumのオプション設定
-    driver = webdriver.Chrome(options=options)
+    # ただし options.set_capability を加えると安定性UP
+    options.set_capability("browserName", "MicrosoftEdge")
+    # Edgeドライバのパス（バージョン135に対応したmsedgedriver.exeを配置済み）
+    service = EdgeService(executable_path=executable_path)
+    # ドライバ起動
+    driver = webdriver.Edge(service=service, options=options)
     try:
         driver.get(url)
         driver.implicitly_wait(10)
