@@ -11,16 +11,20 @@ import os
 from urllib.parse import urljoin
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service as EdgeService
-from selenium.webdriver.edge.options import Options
+# from selenium.webdriver.edge.options import Options
+
+from selenium.webdriver.chrome.options import Options
 # Seleniumのオプションを設定
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument("--no-sandbox")
 options.add_argument("--lang=ja")
 # options.binary_location = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 options.add_argument("--start-maximized")
 options.use_chromium = True
+options.set_capability("acceptInsecureCerts",True)
+options.add_argument("--disable-gpu")
 
 
 def fetch_ppc_news(max_count, execution_timestamp, executable_path):
@@ -29,13 +33,14 @@ def fetch_ppc_news(max_count, execution_timestamp, executable_path):
     json_file = f"./data/ppc.json"
     existing_data = load_existing_data(json_file)
 
-    # ただし options.set_capability を加えると安定性UP
-    options.set_capability("browserName", "MicrosoftEdge")
-    # Edgeドライバのパス（バージョン135に対応したmsedgedriver.exeを配置済み）
-    service = EdgeService(executable_path=executable_path)
-    # ドライバ起動
-    driver = webdriver.Edge(service=service, options=options)
-
+    # # ただし options.set_capability を加えると安定性UP
+    # options.set_capability("browserName", "MicrosoftEdge")
+    # # Edgeドライバのパス（バージョン135に対応したmsedgedriver.exeを配置済み）
+    # service = EdgeService(executable_path=executable_path)
+    # # ドライバ起動
+    # driver = webdriver.Edge(service=service, options=options)
+    # Seleniumドライバーを初期化
+    driver = webdriver.Chrome(options=options)
     try:
         driver.get(url)
         driver.implicitly_wait(10)
@@ -45,6 +50,7 @@ def fetch_ppc_news(max_count, execution_timestamp, executable_path):
         driver.quit()
         return []
     driver.quit()
+    
 
     news_items = []
     new_count = 0  # カウンターを追加
