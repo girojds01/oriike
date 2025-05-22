@@ -18,9 +18,11 @@ options.add_argument("--headless")
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument("--no-sandbox")
 options.add_argument("--lang=ja")
+options.add_argument("--disable-gpu")
 # options.binary_location = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 options.add_argument("--start-maximized")
 options.use_chromium = True
+options.set_capability("acceptInsecureCerts", True)
 
 
 def fetch_jftc_news(max_count, execution_timestamp, executable_path):
@@ -131,7 +133,6 @@ def fetch_jftc_news(max_count, execution_timestamp, executable_path):
                 except Exception as e:
                     print(f"公正取引委員会: ページ取得中にエラー発生 -{link}, {e}")
                     driver.quit()
-                    return []
                 driver.quit()
 
                 content = soup.get_text(separator='\n', strip=True)
