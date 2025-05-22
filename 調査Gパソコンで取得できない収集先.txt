@@ -1,0 +1,10 @@
+{
+'内閣官房(国土強靭化)':'fetch_cas_kyojin', 
+'国税庁':'fetch_nta_news', 
+'検察庁':'fetch_kensatsu_news', 
+'公正取引委員会':'fetch_jftc_news', 
+'個人情報保護委員会':'fetch_ppc_news', 
+'Road-to-the-L4':'fetch_road_to_l4_news', 
+'厚生労働省（緊急）':'fetch_mhlw_kinkyu_news', 
+'株式会社ヤマップネイチャランス損害保険':'fetch_yamap_news',
+}
